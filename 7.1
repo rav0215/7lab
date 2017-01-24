@@ -1,12 +1,44 @@
+#include "stdafx.h"
 #include <stdio.h>
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
-struct Capital;
+
+struct deposit
 {
 	char name[64];
-	int sum;
-	char currency[64];
+	int summa;
 	int percent;
+	char currency[64];
+
 };
-int main(int argc, char* argv[])
+
+int main()
+{
+	int n;
+	deposit *pdep;
+	printf(" n:");
+	scanf_s("%d", &n);
+	cin.get();
+    
+	for (int i = 0; i < n; i++)
+	{
+		printf("deposit N=%d:\n", i + 1);
+		fflush(stdin); gets_s(pdep[i].name, 63);
+		printf("name: ");
+		fflush(stdin); gets_s(pdep[i].name, 63);
+		printf("currency: ");
+		fflush(stdin); gets_s(pdep[i].currency, 63);
+		printf("summa: "); scanf_s("%d", &pdep[i].summa);
+		printf("percent: "); scanf_s("%d", &pdep[i].percent);
+	}
+	FILE *pF;
+	fopen_s(&pF, "deposits.txt", "wt");
+	fwrite(&n, sizeof(int), 1, pF);
+	fwrite(pdep, sizeof(deposit), n, pF);
+	fclose(pF);
+
+	system("pause");
+	return 0;
+}
+
