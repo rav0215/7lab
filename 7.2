@@ -1,0 +1,62 @@
+#include "stdafx.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <conio.h>
+
+
+struct deposit
+{
+	char name[64];
+	char currency[64];
+	int sum;
+	int percent;
+};
+
+struct List
+{
+	deposit deposit;
+	List *pNext;
+};
+
+void addFirst(List *& pF, List* p)
+{
+	p->pNext = pF;
+	pF = p;
+}
+
+
+int main()
+{
+	List *pF = 0;
+	List *p;
+
+	int n;
+	FILE *pFi;
+	fopen_s(&pFi, "deposit.txt", "rt");
+
+	if (pFi == 0)
+	{
+		printf("Error");
+		system("pause");
+		return 1;
+	}
+
+	fread(&n, sizeof(int), 1, pFi);
+
+	for (int i = 0; i < n; i++)
+	{
+		p = (List *)malloc(sizeof(List));
+		fread(p, sizeof(deposit), 1, pFi);
+		addFirst(pF, p);
+	}
+	fclose(pFi);
+
+	printf("\nn = %d", n);
+	for (List *pi = pF; pi; pi = pi->pNext)
+		printf("\nname: %s \ncurrency: %s \nsum = %4d \npersent = %4d \n", pi->deposit.name, pi->deposit.currency, pi->deposit.sum, pi->deposit.percent);
+
+
+	system("pause");
+	return 0;
+}
